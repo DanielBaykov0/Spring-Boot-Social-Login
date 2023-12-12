@@ -7,7 +7,7 @@ import baykov.daniel.sociallogin.repository.UserRepository;
 import baykov.daniel.sociallogin.security.UserPrincipal;
 import baykov.daniel.sociallogin.security.oauth2.user.OAuth2UserInfo;
 import baykov.daniel.sociallogin.security.oauth2.user.OAuth2UserInfoFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -20,9 +20,9 @@ import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
     @Override
