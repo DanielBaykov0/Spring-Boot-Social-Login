@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-@Service
 @Slf4j
+@Service
 public class TokenProvider {
 
     private final AppProperties appProperties;
