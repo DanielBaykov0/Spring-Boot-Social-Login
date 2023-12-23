@@ -3,21 +3,19 @@ package baykov.daniel.sociallogin.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
+import java.util.Set;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@ToString
+@EqualsAndHashCode(callSuper = true)
+@Entity
 @Table(name = "user")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
@@ -34,9 +32,19 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private AuthProvider provider;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_auth_providers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "auth_provider_id")
+    )
+    private Set<AuthProvider> providers;
 
     private String providerId;
 }

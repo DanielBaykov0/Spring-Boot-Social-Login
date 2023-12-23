@@ -1,6 +1,20 @@
 package baykov.daniel.sociallogin.entity;
 
-public enum AuthProvider {
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-    GITHUB, LOCAL
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "auth_provider")
+public class AuthProvider extends BaseEntity {
+
+    @Column(length = 50, nullable = false)
+    private String providerName;
+
+    @ManyToMany(mappedBy = "providers")
+    private Set<User> user;
 }
